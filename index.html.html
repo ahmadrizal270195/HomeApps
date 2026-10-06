@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomeFinance - Manajemen Keuangan & Tabungan Rumah Tangga</title>
+    <title>DompetKita - Manajemen Keuangan & Tabungan Rumah Tangga</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind Config for Dark Mode -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -34,7 +33,6 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        /* Custom scrollbar for better aesthetics */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -53,7 +51,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-    <!-- Top Navigation Bar -->
+    <!-- Navigation Header -->
     <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
@@ -68,9 +66,9 @@
                     </div>
                 </div>
 
-                <!-- Right Actions (Theme Switcher & Mobile Menu Toggle) -->
+                <!-- Right Actions -->
                 <div class="flex items-center gap-2 sm:gap-4">
-                    <!-- Quick Data Action Dropdown -->
+                    <!-- Data Menu Dropdown -->
                     <div class="relative inline-block text-left">
                         <button id="dataMenuBtn" class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-sm flex items-center gap-2" title="Kelola Data">
                             <i class="fa-solid fa-database"></i>
@@ -94,7 +92,7 @@
                         </div>
                     </div>
 
-                    <!-- Dark Mode Toggle -->
+                    <!-- Theme Toggle -->
                     <button id="themeToggle" class="p-2.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
                         <i class="fa-solid fa-moon dark:hidden"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
@@ -103,7 +101,7 @@
             </div>
         </div>
 
-        <!-- Navigation Tabs Bar -->
+        <!-- Navigation Tabs -->
         <div class="border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav class="flex space-x-2 sm:space-x-8 overflow-x-auto py-2 no-scrollbar">
@@ -124,14 +122,14 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         <!-- VIEW 1: DASHBOARD -->
         <section id="view-dashboard" class="tab-content space-y-6">
             <!-- Stat Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Card Total Pemasukan -->
+                <!-- Card Income -->
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Pemasukan</span>
@@ -145,7 +143,7 @@
                     </div>
                 </div>
 
-                <!-- Card Total Pengeluaran -->
+                <!-- Card Expense -->
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Pengeluaran</span>
@@ -159,7 +157,7 @@
                     </div>
                 </div>
 
-                <!-- Card Saldo Bersih -->
+                <!-- Card Net Balance -->
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Saldo Sisa Kas</span>
@@ -173,7 +171,7 @@
                     </div>
                 </div>
 
-                <!-- Card Total Tabungan Terkumpul -->
+                <!-- Card Savings Total -->
                 <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-semibold uppercase tracking-wider text-emerald-100">Tabungan Terkumpul</span>
@@ -215,9 +213,8 @@
                 </div>
             </div>
 
-            <!-- Savings Summary & Quick Alerts Grid -->
+            <!-- Quick Lists Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Savings Quick Overview -->
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -225,12 +222,9 @@
                         </h4>
                         <button onclick="switchTab('savings')" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
-                    <div id="dashboardSavingsList" class="space-y-4">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div id="dashboardSavingsList" class="space-y-4"></div>
                 </div>
 
-                <!-- Budget Warnings Overview -->
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -238,9 +232,7 @@
                         </h4>
                         <button onclick="switchTab('budgeting')" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">Kelola Limit <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
-                    <div id="dashboardBudgetAlerts" class="space-y-3">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div id="dashboardBudgetAlerts" class="space-y-3"></div>
                 </div>
             </div>
         </section>
@@ -263,13 +255,13 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="txType" value="income" class="peer hidden" onchange="updateCategoryOptions()" checked>
-                                    <div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center font-medium text-sm text-slate-600 dark:text-slate-300 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-950/40 peer-checked:border-emerald-500 peer-checked:text-emerald-600 dark:peer-checked:text-emerald-400 transition-all">
+                                    <div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center font-medium text-xs text-slate-600 dark:text-slate-300 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-950/40 peer-checked:border-emerald-500 peer-checked:text-emerald-600 dark:peer-checked:text-emerald-400 transition-all">
                                         <i class="fa-solid fa-arrow-down mr-1"></i> Pemasukan
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="txType" value="expense" class="peer hidden" onchange="updateCategoryOptions()">
-                                    <div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center font-medium text-sm text-slate-600 dark:text-slate-300 peer-checked:bg-rose-50 dark:peer-checked:bg-rose-950/40 peer-checked:border-rose-500 peer-checked:text-rose-600 dark:peer-checked:text-rose-400 transition-all">
+                                    <div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center font-medium text-xs text-slate-600 dark:text-slate-300 peer-checked:bg-rose-50 dark:peer-checked:bg-rose-950/40 peer-checked:border-rose-500 peer-checked:text-rose-600 dark:peer-checked:text-rose-400 transition-all">
                                         <i class="fa-solid fa-arrow-up mr-1"></i> Pengeluaran
                                     </div>
                                 </label>
@@ -286,7 +278,6 @@
                         <div>
                             <label for="txCategory" class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Kategori</label>
                             <select id="txCategory" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                                <!-- Options dynamically loaded -->
                             </select>
                         </div>
 
@@ -296,10 +287,10 @@
                             <input type="number" id="txAmount" min="1" step="1" placeholder="cth. 50000" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                         </div>
 
-                        <!-- Description/Notes -->
+                        <!-- Notes -->
                         <div>
                             <label for="txNote" class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Catatan / Keterangan</label>
-                            <input type="text" id="txNote" placeholder="cth. Belanja mingguan pasar" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                            <input type="text" id="txNote" placeholder="cth. Belanja bulanan / Setor Dana Darurat" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                         </div>
 
                         <div class="flex items-center gap-2 pt-2">
@@ -320,14 +311,16 @@
                             <i class="fa-solid fa-list text-emerald-500"></i> Riwayat Transaksi
                         </h4>
 
-                        <!-- Filters -->
+                        <!-- Enhanced Filters -->
                         <div class="flex flex-wrap items-center gap-2">
-                            <input type="text" id="txSearch" oninput="renderTransactionsTable()" placeholder="Cari catatan..." class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-36">
+                            <input type="text" id="txSearch" oninput="renderTransactionsTable()" placeholder="Cari catatan..." class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-32 sm:w-36">
                             
                             <select id="txFilterType" onchange="renderTransactionsTable()" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                <option value="all">Semua Tipe</option>
+                                <option value="all">Semua Jenis</option>
                                 <option value="income">Pemasukan</option>
                                 <option value="expense">Pengeluaran</option>
+                                <option value="savings_deposit">Setor Tabungan</option>
+                                <option value="savings_withdraw">Tarik Tabungan</option>
                             </select>
 
                             <select id="txFilterCategory" onchange="renderTransactionsTable()" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -336,7 +329,7 @@
                         </div>
                     </div>
 
-                    <!-- Table Responsive -->
+                    <!-- Table Container -->
                     <div class="overflow-x-auto flex-grow rounded-xl border border-slate-100 dark:border-slate-700/50">
                         <table class="w-full text-left text-sm">
                             <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-xs uppercase">
@@ -348,9 +341,7 @@
                                     <th class="px-4 py-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="txTableBody" class="divide-y divide-slate-100 dark:divide-slate-700/50">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="txTableBody" class="divide-y divide-slate-100 dark:divide-slate-700/50"></tbody>
                         </table>
                     </div>
                 </div>
@@ -362,7 +353,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white">Target & Pos Tabungan</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Pantau perkembangan alokasi dana masa depan rumah tangga.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Setor, tarik, dan pantau perkembangan alokasi dana rumah tangga Anda.</p>
                 </div>
                 <button onclick="openSavingsModal()" class="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm shadow-md shadow-emerald-600/20 transition-colors flex items-center gap-2 self-start sm:self-auto">
                     <i class="fa-solid fa-plus"></i> Tambah Target Tabungan
@@ -370,12 +361,10 @@
             </div>
 
             <!-- Savings Goals Cards Grid -->
-            <div id="savingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards injected dynamically -->
-            </div>
+            <div id="savingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- VIEW 4: BUDGETING LIMITS -->
+        <!-- VIEW 4: BUDGETING -->
         <section id="view-budgeting" class="tab-content hidden space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -385,9 +374,7 @@
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
-                <div id="budgetCategoryList" class="space-y-6">
-                    <!-- Populated dynamically -->
-                </div>
+                <div id="budgetCategoryList" class="space-y-6"></div>
             </div>
         </section>
     </main>
@@ -422,58 +409,66 @@
         </div>
     </div>
 
-    <!-- Modal: Add Deposit to Savings -->
-    <div id="depositModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <!-- Modal: Savings Action (Setor / Tarik Tabungan) -->
+    <div id="savingsActionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
-            <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Tambah Saldo Tabungan</h4>
-            <p id="depositGoalName" class="text-xs text-slate-500 dark:text-slate-400 mb-4"></p>
-            <form id="depositForm" onsubmit="handleDepositSavings(event)" class="space-y-4">
-                <input type="hidden" id="depositGoalId">
+            <h4 id="savingsActionTitle" class="text-lg font-bold text-slate-900 dark:text-white mb-1">Setor Tabungan</h4>
+            <p id="savingsActionGoalName" class="text-xs text-slate-500 dark:text-slate-400 mb-4"></p>
+
+            <form id="savingsActionForm" onsubmit="handleSavingsActionSubmit(event)" class="space-y-4">
+                <input type="hidden" id="savingsActionGoalId">
+                <input type="hidden" id="savingsActionType" value="deposit">
+
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Nominal Setoran (Rp)</label>
-                    <input type="number" id="depositAmount" min="1" step="1" placeholder="cth. 500000" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Nominal (Rp)</label>
+                    <input type="number" id="savingsActionAmount" min="1" step="1" placeholder="cth. 500000" required class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                 </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1">Catatan / Keterangan</label>
+                    <input type="text" id="savingsActionNote" placeholder="cth. Sisa uang belanja / Keperluan darurat" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                </div>
+
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeDepositModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-sm font-medium">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-emerald-600/20">Setor</button>
+                    <button type="button" onclick="closeSavingsActionModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-sm font-medium">Batal</button>
+                    <button id="savingsActionSubmitBtn" type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-emerald-600/20">Proses</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // --- CONSTANTS & INITIAL DATA STRUCTURES ---
+        // Default categories including 'Tabungan'
         const INCOME_CATEGORIES = [
             'Gaji / Utama',
             'Bonus / THR',
             'Usaha / Sampingan',
             'Investasi / Pasif',
+            'Tabungan',
             'Lain-Lain'
         ];
 
         const EXPENSE_CATEGORIES = [
-            'Belanja Bulanan & Dapur',
+            'Makanan & Dapur',
+            'Transportasi',
             'Tagihan & Listrik/Air',
-            'Transportasi & Bensin',
-            'Pendidikan & Anak',
-            'Kesehatan & Asuransi',
-            'Hiburan & Rekreasi',
-            'Hutang & Cicilan',
+            'Hiburan',
+            'Kesehatan',
+            'Belanja',
+            'Pendidikan',
+            'Tabungan',
             'Lain-Lain'
         ];
 
-        // App State
         let appState = {
             transactions: [],
             savingsGoals: [],
-            budgets: {} // { categoryName: limitAmount }
+            budgets: {}
         };
 
-        // Charts References
         let cashflowChartInstance = null;
         let expenseChartInstance = null;
 
-        // --- INITIALIZATION ---
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             loadStateFromLocalStorage();
@@ -481,25 +476,23 @@
             setDefaultTxDate();
             updateCategoryOptions();
 
-            // Populate Category Filter dropdown in transactions
+            // Populate Filter Dropdown
             const txFilterCat = document.getElementById('txFilterCategory');
             txFilterCat.innerHTML = '<option value="all">Semua Kategori</option>';
-            [...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES].forEach(cat => {
+            const allCategories = Array.from(new Set([...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES]));
+            allCategories.forEach(cat => {
                 txFilterCat.innerHTML += `<option value="${cat}">${cat}</option>`;
             });
 
-            // Initialize App Views
             renderAll();
         });
 
-        // --- LOCAL STORAGE DATA PERSISTENCE ---
         function loadStateFromLocalStorage() {
             const saved = localStorage.getItem('dompetkita_app_state');
             if (saved) {
                 try {
                     appState = JSON.parse(saved);
                 } catch (e) {
-                    console.error("Failed to parse local storage data", e);
                     useDefaultMockData();
                 }
             } else {
@@ -517,25 +510,24 @@
             appState = {
                 transactions: [
                     { id: '1', date: today, type: 'income', category: 'Gaji / Utama', amount: 12000000, note: 'Gaji bulanan' },
-                    { id: '2', date: today, type: 'expense', category: 'Belanja Bulanan & Dapur', amount: 2500000, note: 'Supermarket & pasar' },
-                    { id: '3', date: today, type: 'expense', category: 'Tagihan & Listrik/Air', amount: 850000, note: 'Listrik & WiFi' },
-                    { id: '4', date: today, type: 'expense', category: 'Transportasi & Bensin', amount: 400000, note: 'Bensin & tol' }
+                    { id: '2', date: today, type: 'expense', category: 'Makanan & Dapur', amount: 2500000, note: 'Supermarket & pasar' },
+                    { id: '3', date: today, type: 'savings_deposit', category: 'Tabungan', amount: 1000000, note: 'Setor Dana Darurat' },
+                    { id: '4', date: today, type: 'expense', category: 'Transportasi', amount: 400000, note: 'Bensin & tol' }
                 ],
                 savingsGoals: [
                     { id: 's1', name: 'Dana Darurat Rumah Tangga', targetAmount: 30000000, currentAmount: 12500000, targetDate: '2027-12-31' },
                     { id: 's2', name: 'Liburan Akhir Tahun', targetAmount: 8000000, currentAmount: 4500000, targetDate: '2026-12-20' }
                 ],
                 budgets: {
-                    'Belanja Bulanan & Dapur': 3500000,
+                    'Makanan & Dapur': 3500000,
                     'Tagihan & Listrik/Air': 1200000,
-                    'Transportasi & Bensin': 1000000,
-                    'Hiburan & Rekreasi': 1500000
+                    'Transportasi': 1000000,
+                    'Hiburan': 1500000
                 }
             };
             saveStateToLocalStorage();
         }
 
-        // --- RENDER ALL VIEWS & DASHBOARD ---
         function renderAll() {
             renderDashboardStats();
             renderCharts();
@@ -545,10 +537,8 @@
             renderBudgetLimits();
         }
 
-        // --- THEME & UTILS ---
         function initTheme() {
-            const themeBtn = document.getElementById('themeToggle');
-            themeBtn.addEventListener('click', () => {
+            document.getElementById('themeToggle').addEventListener('click', () => {
                 document.documentElement.classList.toggle('dark');
             });
         }
@@ -597,14 +587,15 @@
             });
         }
 
-        // --- DASHBOARD CALCULATIONS & RENDER ---
+        // --- DASHBOARD RENDER ---
         function renderDashboardStats() {
             let totalIncome = 0;
             let totalExpense = 0;
 
             appState.transactions.forEach(t => {
                 if (t.type === 'income') totalIncome += Number(t.amount);
-                if (t.type === 'expense') totalExpense += Number(t.amount);
+                if (t.type === 'expense' || t.type === 'savings_deposit') totalExpense += Number(t.amount);
+                if (t.type === 'savings_withdraw') totalIncome += Number(t.amount);
             });
 
             const netBalance = totalIncome - totalExpense;
@@ -626,7 +617,6 @@
         }
 
         function renderCharts() {
-            // 1. Cashflow Bar Chart (Monthly Income vs Expense)
             const monthlyData = {};
             appState.transactions.forEach(t => {
                 const dateObj = new Date(t.date);
@@ -636,8 +626,8 @@
                 if (!monthlyData[monthKey]) {
                     monthlyData[monthKey] = { income: 0, expense: 0 };
                 }
-                if (t.type === 'income') monthlyData[monthKey].income += Number(t.amount);
-                if (t.type === 'expense') monthlyData[monthKey].expense += Number(t.amount);
+                if (t.type === 'income' || t.type === 'savings_withdraw') monthlyData[monthKey].income += Number(t.amount);
+                if (t.type === 'expense' || t.type === 'savings_deposit') monthlyData[monthKey].expense += Number(t.amount);
             });
 
             const labels = Object.keys(monthlyData);
@@ -655,26 +645,14 @@
                 data: {
                     labels: labels.length ? labels : ['Bulan Ini'],
                     datasets: [
-                        {
-                            label: 'Pemasukan',
-                            data: incomeSeries.length ? incomeSeries : [0],
-                            backgroundColor: '#22c55e',
-                            borderRadius: 6
-                        },
-                        {
-                            label: 'Pengeluaran',
-                            data: expenseSeries.length ? expenseSeries : [0],
-                            backgroundColor: '#f43f5e',
-                            borderRadius: 6
-                        }
+                        { label: 'Pemasukan', data: incomeSeries.length ? incomeSeries : [0], backgroundColor: '#22c55e', borderRadius: 6 },
+                        { label: 'Pengeluaran / Setor', data: expenseSeries.length ? expenseSeries : [0], backgroundColor: '#f43f5e', borderRadius: 6 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: textColor } }
-                    },
+                    plugins: { legend: { labels: { color: textColor } } },
                     scales: {
                         x: { ticks: { color: textColor }, grid: { display: false } },
                         y: { ticks: { color: textColor }, grid: { color: isDark ? '#334155' : '#e2e8f0' } }
@@ -682,9 +660,8 @@
                 }
             });
 
-            // 2. Expense Category Donut Chart
             const categorySums = {};
-            appState.transactions.filter(t => t.type === 'expense').forEach(t => {
+            appState.transactions.filter(t => t.type === 'expense' || t.type === 'savings_deposit').forEach(t => {
                 categorySums[t.category] = (categorySums[t.category] || 0) + Number(t.amount);
             });
 
@@ -700,24 +677,18 @@
                     labels: catLabels.length ? catLabels : ['Belum Ada Data'],
                     datasets: [{
                         data: catData.length ? catData : [1],
-                        backgroundColor: [
-                            '#f43f5e', '#3b82f6', '#eab308', '#a855f7', 
-                            '#06b6d4', '#10b981', '#f97316', '#64748b'
-                        ]
+                        backgroundColor: ['#f43f5e', '#3b82f6', '#eab308', '#a855f7', '#06b6d4', '#10b981', '#f97316', '#64748b']
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: textColor, boxWidth: 12 } }
-                    }
+                    plugins: { legend: { position: 'bottom', labels: { color: textColor, boxWidth: 12 } } }
                 }
             });
         }
 
         function renderDashboardQuickLists() {
-            // Render Savings Quick List
             const savingsContainer = document.getElementById('dashboardSavingsList');
             savingsContainer.innerHTML = '';
             if (appState.savingsGoals.length === 0) {
@@ -739,11 +710,9 @@
                 });
             }
 
-            // Render Budget Warning Alerts
             const alertContainer = document.getElementById('dashboardBudgetAlerts');
             alertContainer.innerHTML = '';
             
-            // Calculate expenses per category
             const expenseSums = {};
             appState.transactions.filter(t => t.type === 'expense').forEach(t => {
                 expenseSums[t.category] = (expenseSums[t.category] || 0) + Number(t.amount);
@@ -777,7 +746,6 @@
             }
         }
 
-        // --- TRANSACTIONS LOGIC ---
         function handleSaveTransaction(event) {
             event.preventDefault();
             const id = document.getElementById('txId').value;
@@ -788,22 +756,19 @@
             const note = document.getElementById('txNote').value.trim();
 
             if (id) {
-                // Edit
                 const index = appState.transactions.findIndex(t => t.id === id);
                 if (index !== -1) {
                     appState.transactions[index] = { id, type, date, category, amount, note };
                 }
             } else {
-                // Add
-                const newTx = {
+                appState.transactions.unshift({
                     id: 'tx_' + Date.now(),
                     type,
                     date,
                     category,
                     amount,
                     note
-                };
-                appState.transactions.unshift(newTx);
+                });
             }
 
             saveStateToLocalStorage();
@@ -825,7 +790,8 @@
             document.getElementById('txId').value = tx.id;
             document.getElementById('txFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-500"></i> Edit Transaksi`;
             
-            const radio = document.querySelector(`input[name="txType"][value="${tx.type}"]`);
+            const typeValue = (tx.type === 'savings_deposit' || tx.type === 'expense') ? 'expense' : 'income';
+            const radio = document.querySelector(`input[name="txType"][value="${typeValue}"]`);
             if (radio) {
                 radio.checked = true;
                 updateCategoryOptions();
@@ -867,17 +833,33 @@
             }
 
             filtered.forEach(t => {
-                const isIncome = t.type === 'income';
-                const badgeClass = isIncome ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400';
-                const amountPrefix = isIncome ? '+' : '-';
-                const amountClass = isIncome ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-rose-600 dark:text-rose-400 font-bold';
+                let badgeClass = 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400';
+                let amountPrefix = '+';
+                let amountClass = 'text-emerald-600 dark:text-emerald-400 font-bold';
+                let typeLabel = t.category;
+
+                if (t.type === 'expense') {
+                    badgeClass = 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400';
+                    amountPrefix = '-';
+                    amountClass = 'text-rose-600 dark:text-rose-400 font-bold';
+                } else if (t.type === 'savings_deposit') {
+                    badgeClass = 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400';
+                    amountPrefix = '-';
+                    amountClass = 'text-blue-600 dark:text-blue-400 font-bold';
+                    typeLabel = `Setor (${t.category})`;
+                } else if (t.type === 'savings_withdraw') {
+                    badgeClass = 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400';
+                    amountPrefix = '+';
+                    amountClass = 'text-amber-600 dark:text-amber-400 font-bold';
+                    typeLabel = `Tarik (${t.category})`;
+                }
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                         <td class="px-4 py-3 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">${t.date}</td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <span class="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold ${badgeClass}">
-                                ${t.category}
+                                ${typeLabel}
                             </span>
                         </td>
                         <td class="px-4 py-3 text-xs text-slate-700 dark:text-slate-300 max-w-xs truncate">${t.note || '-'}</td>
@@ -897,13 +879,12 @@
             });
         }
 
-        // --- SAVINGS GOALS LOGIC ---
         function renderSavingsGoals() {
             const grid = document.getElementById('savingsGrid');
             grid.innerHTML = '';
 
             if (appState.savingsGoals.length === 0) {
-                grid.innerHTML = `<div class="col-span-full p-8 text-center bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-400 text-sm">Belum ada target tabungan. Klik tombol "Tambah Target Tabungan" untuk memulai.</div>`;
+                grid.innerHTML = `<div class="col-span-full p-8 text-center bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-400 text-sm">Belum ada target tabungan. Klik "Tambah Target Tabungan" untuk memulai.</div>`;
                 return;
             }
 
@@ -915,8 +896,8 @@
                             <div class="flex items-start justify-between gap-2 mb-2">
                                 <h4 class="font-bold text-slate-800 dark:text-white text-base">${s.name}</h4>
                                 <div class="flex items-center gap-1">
-                                    <button onclick="openSavingsModal('${s.id}')" class="p-1 text-slate-400 hover:text-amber-500 text-xs"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteSavingsGoal('${s.id}')" class="p-1 text-slate-400 hover:text-rose-500 text-xs"><i class="fa-solid fa-trash"></i></button>
+                                    <button onclick="openSavingsModal('${s.id}')" class="p-1 text-slate-400 hover:text-amber-500 text-xs" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteSavingsGoal('${s.id}')" class="p-1 text-slate-400 hover:text-rose-500 text-xs" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                             
@@ -924,7 +905,7 @@
                                 <i class="fa-regular fa-calendar mr-1"></i> Target: ${s.targetDate}
                             </p>
 
-                            <div class="space-y-1 mb-3">
+                            <div class="space-y-1 mb-4">
                                 <div class="flex justify-between text-xs font-bold">
                                     <span class="text-emerald-600 dark:text-emerald-400">${formatIDR(s.currentAmount)}</span>
                                     <span class="text-slate-400">${formatIDR(s.targetAmount)}</span>
@@ -936,9 +917,15 @@
                             </div>
                         </div>
 
-                        <button onclick="openDepositModal('${s.id}')" class="mt-4 w-full py-2 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-2 border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-solid fa-plus-circle"></i> Setor Tabungan
-                        </button>
+                        <!-- Action Buttons: Deposit & Withdraw -->
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="openSavingsActionModal('${s.id}', 'deposit')" class="py-2 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-1 border border-emerald-200 dark:border-emerald-800">
+                                <i class="fa-solid fa-plus-circle"></i> Setor
+                            </button>
+                            <button onclick="openSavingsActionModal('${s.id}', 'withdraw')" class="py-2 px-3 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-600 dark:text-amber-400 rounded-xl font-semibold text-xs transition-colors flex items-center justify-center gap-1 border border-amber-200 dark:border-amber-800">
+                                <i class="fa-solid fa-minus-circle"></i> Tarik
+                            </button>
+                        </div>
                     </div>
                 `;
             });
@@ -1003,39 +990,82 @@
             }
         }
 
-        function openDepositModal(id) {
+        function openSavingsActionModal(id, type) {
             const goal = appState.savingsGoals.find(s => s.id === id);
             if (!goal) return;
 
-            document.getElementById('depositGoalId').value = id;
-            document.getElementById('depositGoalName').innerText = `Tujuan: ${goal.name}`;
-            document.getElementById('depositAmount').value = '';
-            document.getElementById('depositModal').classList.remove('hidden');
+            document.getElementById('savingsActionGoalId').value = id;
+            document.getElementById('savingsActionType').value = type;
+            document.getElementById('savingsActionGoalName').innerText = `Target: ${goal.name} (Saldo Saat Ini: ${formatIDR(goal.currentAmount)})`;
+            document.getElementById('savingsActionAmount').value = '';
+            document.getElementById('savingsActionNote').value = '';
+
+            const submitBtn = document.getElementById('savingsActionSubmitBtn');
+
+            if (type === 'deposit') {
+                document.getElementById('savingsActionTitle').innerText = 'Setor Tabungan';
+                submitBtn.className = 'px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-emerald-600/20';
+                submitBtn.innerText = 'Setor Sekarang';
+            } else {
+                document.getElementById('savingsActionTitle').innerText = 'Tarik / Ambil Tabungan';
+                submitBtn.className = 'px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-amber-600/20';
+                submitBtn.innerText = 'Tarik Sekarang';
+            }
+
+            document.getElementById('savingsActionModal').classList.remove('hidden');
         }
 
-        function closeDepositModal() {
-            document.getElementById('depositModal').classList.add('hidden');
+        function closeSavingsActionModal() {
+            document.getElementById('savingsActionModal').classList.add('hidden');
         }
 
-        function handleDepositSavings(event) {
+        function handleSavingsActionSubmit(event) {
             event.preventDefault();
-            const id = document.getElementById('depositGoalId').value;
-            const amount = Number(document.getElementById('depositAmount').value);
+            const id = document.getElementById('savingsActionGoalId').value;
+            const actionType = document.getElementById('savingsActionType').value;
+            const amount = Number(document.getElementById('savingsActionAmount').value);
+            const userNote = document.getElementById('savingsActionNote').value.trim();
 
             const idx = appState.savingsGoals.findIndex(s => s.id === id);
-            if (idx !== -1) {
-                appState.savingsGoals[idx].currentAmount += amount;
-                saveStateToLocalStorage();
+            if (idx === -1) return;
+
+            const goal = appState.savingsGoals[idx];
+
+            if (actionType === 'withdraw' && amount > goal.currentAmount) {
+                alert('Nominal penarikan melebihi saldo tabungan saat ini!');
+                return;
             }
-            closeDepositModal();
+
+            // Update Savings Balance
+            if (actionType === 'deposit') {
+                appState.savingsGoals[idx].currentAmount += amount;
+            } else {
+                appState.savingsGoals[idx].currentAmount -= amount;
+            }
+
+            // Create Automated Transaction Record
+            const today = new Date().toISOString().split('T')[0];
+            const defaultNote = actionType === 'deposit' 
+                ? `Setor tabungan [${goal.name}]` 
+                : `Penarikan tabungan [${goal.name}]`;
+
+            appState.transactions.unshift({
+                id: 'tx_' + Date.now(),
+                type: actionType === 'deposit' ? 'savings_deposit' : 'savings_withdraw',
+                date: today,
+                category: 'Tabungan',
+                amount: amount,
+                note: userNote ? `${defaultNote} - ${userNote}` : defaultNote
+            });
+
+            saveStateToLocalStorage();
+            closeSavingsActionModal();
         }
 
-        // --- BUDGET LIMITS LOGIC ---
         function renderBudgetLimits() {
             const container = document.getElementById('budgetCategoryList');
             container.innerHTML = '';
 
-            // Sum expenses per category
             const expenseSums = {};
             appState.transactions.filter(t => t.type === 'expense').forEach(t => {
                 expenseSums[t.category] = (expenseSums[t.category] || 0) + Number(t.amount);
@@ -1086,7 +1116,6 @@
             saveStateToLocalStorage();
         }
 
-        // --- EXPORT / IMPORT DATA ---
         function exportDataJSON() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
             const downloadAnchor = document.createElement('a');

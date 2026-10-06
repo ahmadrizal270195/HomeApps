@@ -6,53 +6,83 @@
     <title>DompetKita - Keuangan Rumah Tangga & Tabungan</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        pastel: {
+                            bg: '#f8fafc',
+                            card: '#ffffff',
+                            primary: '#818cf8',
+                            primaryDark: '#6366f1',
+                            income: '#a7f3d0',
+                            incomeText: '#065f46',
+                            expense: '#fecdd3',
+                            expenseText: '#9f1239',
+                            savings: '#fef08a',
+                            savingsText: '#854d0e',
+                            text: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col pb-12">
+<body class="bg-slate-50 text-slate-700 dark:bg-slate-900 dark:text-slate-200 min-h-screen flex flex-col pb-12 transition-colors duration-200">
 
     <!-- Header / Navbar -->
-    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <header class="bg-indigo-400 dark:bg-indigo-900/80 text-white shadow-sm sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                <div class="bg-white/20 p-2 rounded-2xl backdrop-blur-md">
                     <i data-lucide="wallet" class="w-6 h-6 text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold leading-tight">DompetKita</h1>
-                    <p class="text-xs text-indigo-200">Keuangan Rumah Tangga & Tabungan</p>
+                    <h1 class="text-lg font-bold leading-tight tracking-wide">DompetKita</h1>
+                    <p class="text-[11px] text-indigo-100">Keuangan Rumah Tangga & Tabungan</p>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-2">
-                <span id="syncStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+            <div class="flex items-center space-x-3">
+                <span id="syncStatus" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">
                     <span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                    Firebase Sync Active
+                    Firebase Active
                 </span>
+
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 bg-indigo-500/30 hover:bg-indigo-500/50 rounded-xl transition text-white">
+                    <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden"></i>
+                    <i data-lucide="moon" id="moonIcon" class="w-4 h-4"></i>
+                </button>
             </div>
         </div>
         
         <!-- Navigation Tabs -->
-        <div class="max-w-6xl mx-auto px-4 flex space-x-2 border-t border-indigo-500/30 pt-2 overflow-x-auto">
-            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active text-white bg-indigo-700/60 px-4 py-2 rounded-t-lg font-medium text-sm flex items-center space-x-2">
+        <div class="max-w-6xl mx-auto px-4 flex space-x-2 border-t border-indigo-300/30 dark:border-indigo-800/50 pt-2 overflow-x-auto">
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active text-white bg-indigo-500/80 dark:bg-indigo-800 px-4 py-2 rounded-t-xl font-medium text-xs flex items-center space-x-2 transition">
                 <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                 <span>Dashboard</span>
             </button>
-            <button onclick="switchTab('transactions')" id="tab-transactions" class="tab-btn text-indigo-100 hover:bg-indigo-700/40 px-4 py-2 rounded-t-lg font-medium text-sm flex items-center space-x-2">
+            <button onclick="switchTab('transactions')" id="tab-transactions" class="tab-btn text-indigo-100 hover:bg-indigo-500/40 px-4 py-2 rounded-t-xl font-medium text-xs flex items-center space-x-2 transition">
                 <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
                 <span>Transaksi</span>
             </button>
-            <button onclick="switchTab('savings')" id="tab-savings" class="tab-btn text-indigo-100 hover:bg-indigo-700/40 px-4 py-2 rounded-t-lg font-medium text-sm flex items-center space-x-2">
+            <button onclick="switchTab('savings')" id="tab-savings" class="tab-btn text-indigo-100 hover:bg-indigo-500/40 px-4 py-2 rounded-t-xl font-medium text-xs flex items-center space-x-2 transition">
                 <i data-lucide="piggy-bank" class="w-4 h-4"></i>
                 <span>Target Tabungan</span>
             </button>
-            <button onclick="switchTab('budget')" id="tab-budget" class="tab-btn text-indigo-100 hover:bg-indigo-700/40 px-4 py-2 rounded-t-lg font-medium text-sm flex items-center space-x-2">
+            <button onclick="switchTab('budget')" id="tab-budget" class="tab-btn text-indigo-100 hover:bg-indigo-500/40 px-4 py-2 rounded-t-xl font-medium text-xs flex items-center space-x-2 transition">
                 <i data-lucide="pie-chart" class="w-4 h-4"></i>
                 <span>Anggaran</span>
             </button>
@@ -66,46 +96,46 @@
         <section id="content-dashboard" class="space-y-6">
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase">Sisa Kas / Saldo</p>
-                        <h3 id="dashBalance" class="text-2xl font-bold text-slate-800 mt-1">Rp 0</h3>
-                        <p class="text-xs text-slate-500 mt-1">Pemasukan - Pengeluaran</p>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sisa Kas / Saldo</p>
+                        <h3 id="dashBalance" class="text-xl font-extrabold text-slate-800 dark:text-white mt-1">Rp 0</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Pemasukan - Pengeluaran</p>
                     </div>
-                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <div class="p-3 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-500 dark:text-indigo-300 rounded-2xl">
                         <i data-lucide="banknote" class="w-6 h-6"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div class="bg-emerald-50/60 dark:bg-emerald-950/20 p-5 rounded-3xl shadow-sm border border-emerald-100/80 dark:border-emerald-900/30 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-emerald-500 uppercase">Total Pemasukan</p>
-                        <h3 id="dashIncome" class="text-2xl font-bold text-emerald-600 mt-1">Rp 0</h3>
-                        <p class="text-xs text-slate-500 mt-1">Bulan ini</p>
+                        <p class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Total Pemasukan</p>
+                        <h3 id="dashIncome" class="text-xl font-extrabold text-emerald-700 dark:text-emerald-300 mt-1">Rp 0</h3>
+                        <p class="text-[11px] text-emerald-600/70 dark:text-emerald-400/60 mt-0.5">Keseluruhan</p>
                     </div>
-                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                    <div class="p-3 bg-emerald-100/80 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300 rounded-2xl">
                         <i data-lucide="trending-up" class="w-6 h-6"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div class="bg-rose-50/60 dark:bg-rose-950/20 p-5 rounded-3xl shadow-sm border border-rose-100/80 dark:border-rose-900/30 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-rose-500 uppercase">Total Pengeluaran</p>
-                        <h3 id="dashExpense" class="text-2xl font-bold text-rose-600 mt-1">Rp 0</h3>
-                        <p class="text-xs text-slate-500 mt-1">Bulan ini</p>
+                        <p class="text-[11px] font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wider">Total Pengeluaran</p>
+                        <h3 id="dashExpense" class="text-xl font-extrabold text-rose-700 dark:text-rose-300 mt-1">Rp 0</h3>
+                        <p class="text-[11px] text-rose-600/70 dark:text-rose-400/60 mt-0.5">Keseluruhan</p>
                     </div>
-                    <div class="p-3 bg-rose-50 text-rose-600 rounded-xl">
+                    <div class="p-3 bg-rose-100/80 dark:bg-rose-900/50 text-rose-600 dark:text-rose-300 rounded-2xl">
                         <i data-lucide="trending-down" class="w-6 h-6"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div class="bg-amber-50/60 dark:bg-amber-950/20 p-5 rounded-3xl shadow-sm border border-amber-100/80 dark:border-amber-900/30 flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-amber-500 uppercase">Total Tabungan</p>
-                        <h3 id="dashSavings" class="text-2xl font-bold text-amber-600 mt-1">Rp 0</h3>
-                        <p class="text-xs text-slate-500 mt-1">Terkumpul di Target</p>
+                        <p class="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Total Tabungan</p>
+                        <h3 id="dashSavings" class="text-xl font-extrabold text-amber-700 dark:text-amber-300 mt-1">Rp 0</h3>
+                        <p class="text-[11px] text-amber-600/70 dark:text-amber-400/60 mt-0.5">Terkumpul di Pos</p>
                     </div>
-                    <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
+                    <div class="p-3 bg-amber-100/80 dark:bg-amber-900/50 text-amber-600 dark:text-amber-300 rounded-2xl">
                         <i data-lucide="vault" class="w-6 h-6"></i>
                     </div>
                 </div>
@@ -113,18 +143,18 @@
 
             <!-- Charts Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center">
-                        <i data-lucide="pie-chart" class="w-5 h-5 mr-2 text-indigo-600"></i> Pengeluaran per Kategori
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                        <i data-lucide="pie-chart" class="w-4 h-4 mr-2 text-indigo-400"></i> Pengeluaran per Kategori
                     </h3>
                     <div class="h-64 flex justify-center items-center">
                         <canvas id="expenseCategoryChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center">
-                        <i data-lucide="line-chart" class="w-5 h-5 mr-2 text-indigo-600"></i> Tren Keuangan Harian
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                        <i data-lucide="line-chart" class="w-4 h-4 mr-2 text-indigo-400"></i> Ringkasan Keuangan
                     </h3>
                     <div class="h-64">
                         <canvas id="dailyTrendChart"></canvas>
@@ -137,25 +167,25 @@
         <section id="content-transactions" class="space-y-6 hidden">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-800">Riwayat Transaksi</h2>
-                    <p class="text-xs text-slate-500">Catatan pengeluaran, pemasukan, dan tabungan harian</p>
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">Riwayat Transaksi</h2>
+                    <p class="text-xs text-slate-400">Catatan pengeluaran, pemasukan, dan tabungan harian</p>
                 </div>
-                <button onclick="openTransactionModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center shadow-lg shadow-indigo-200 transition">
+                <button onclick="openTransactionModal()" class="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white px-4 py-2.5 rounded-2xl font-semibold text-xs flex items-center shadow-sm transition">
                     <i data-lucide="plus-circle" class="w-4 h-4 mr-2"></i> Tambah Transaksi
                 </button>
             </div>
 
             <!-- Filters -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-3">
-                <input type="text" id="searchFilter" onkeyup="filterTransactions()" placeholder="Cari transaksi..." class="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <select id="typeFilter" onchange="filterTransactions()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="searchFilter" onkeyup="filterTransactions()" placeholder="Cari transaksi..." class="border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                <select id="typeFilter" onchange="filterTransactions()" class="border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-300">
                     <option value="ALL">Semua Jenis</option>
                     <option value="INCOME">Pemasukan</option>
                     <option value="EXPENSE">Pengeluaran</option>
                     <option value="SAVINGS_DEPOSIT">Setor Tabungan</option>
                     <option value="SAVINGS_WITHDRAW">Tarik Tabungan</option>
                 </select>
-                <select id="categoryFilter" onchange="filterTransactions()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <select id="categoryFilter" onchange="filterTransactions()" class="border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-300">
                     <option value="ALL">Semua Kategori</option>
                     <option value="Tabungan">Tabungan</option>
                     <option value="Makanan & Dapur">Makanan & Dapur</option>
@@ -170,10 +200,10 @@
             </div>
 
             <!-- Table -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
-                        <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
+                    <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-400 font-semibold border-b border-slate-100 dark:border-slate-700/50">
                             <tr>
                                 <th class="p-4">Tanggal</th>
                                 <th class="p-4">Jenis</th>
@@ -183,7 +213,7 @@
                                 <th class="p-4 text-center">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="transactionTableBody" class="divide-y divide-slate-100">
+                        <tbody id="transactionTableBody" class="divide-y divide-slate-100 dark:divide-slate-700/40">
                             <!-- Injected by JS -->
                         </tbody>
                     </table>
@@ -195,10 +225,10 @@
         <section id="content-savings" class="space-y-6 hidden">
             <div class="flex justify-between items-center">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-800">Target Tabungan & Pos Dana</h2>
-                    <p class="text-xs text-slate-500">Monitoring progres alokasi tabungan keluarga</p>
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">Target Tabungan & Pos Dana</h2>
+                    <p class="text-xs text-slate-400">Monitoring alokasi tabungan keluarga</p>
                 </div>
-                <button onclick="openSavingsModal()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center shadow-lg shadow-amber-200 transition">
+                <button onclick="openSavingsModal()" class="bg-amber-400 hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-2xl font-semibold text-xs flex items-center shadow-sm transition">
                     <i data-lucide="plus-circle" class="w-4 h-4 mr-2"></i> Tambah Pos Tabungan
                 </button>
             </div>
@@ -212,10 +242,10 @@
         <section id="content-budget" class="space-y-6 hidden">
             <div class="flex justify-between items-center">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-800">Anggaran Bulanan</h2>
-                    <p class="text-xs text-slate-500">Batasi pengeluaran agar rencana keuangan tetap sehat</p>
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">Anggaran Bulanan</h2>
+                    <p class="text-xs text-slate-400">Batas pengeluaran bulanan per kategori</p>
                 </div>
-                <button onclick="openBudgetModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center transition">
+                <button onclick="openBudgetModal()" class="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-600 text-white px-4 py-2.5 rounded-2xl font-semibold text-xs flex items-center transition">
                     <i data-lucide="settings" class="w-4 h-4 mr-2"></i> Atur Batas Anggaran
                 </button>
             </div>
@@ -228,24 +258,23 @@
     </main>
 
     <!-- MODAL: TRANSAKSI -->
-    <div id="transactionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-center items-center hidden">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+    <div id="transactionModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 flex justify-center items-center hidden p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-md shadow-xl border border-slate-100 dark:border-slate-700">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-800" id="txModalTitle">Tambah Transaksi</h3>
-                <button onclick="closeTransactionModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x"></i></button>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white" id="txModalTitle">Tambah Transaksi</h3>
+                <button onclick="closeTransactionModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x"></i></button>
             </div>
-            <form id="transactionForm" onsubmit="saveTransaction(event)" class="space-y-4">
-                <input type="hidden" id="txId">
+            <form id="transactionForm" onsubmit="saveTransaction(event)" class="space-y-3.5">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Transaksi</label>
-                    <select id="txType" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Jenis Transaksi</label>
+                    <select id="txType" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" required>
                         <option value="EXPENSE">Pengeluaran</option>
                         <option value="INCOME">Pemasukan</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kategori</label>
-                    <select id="txCategory" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Kategori</label>
+                    <select id="txCategory" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" required>
                         <option value="Tabungan">Tabungan</option>
                         <option value="Makanan & Dapur">Makanan & Dapur</option>
                         <option value="Transportasi">Transportasi</option>
@@ -258,90 +287,90 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nominal (Rp)</label>
-                    <input type="number" id="txAmount" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="0" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Nominal (Rp)</label>
+                    <input type="number" id="txAmount" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="0" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
-                    <input type="date" id="txDate" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Tanggal</label>
+                    <input type="date" id="txDate" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan / Keterangan</label>
-                    <input type="text" id="txNotes" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="Belanja mingguan, dsb.">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Catatan</label>
+                    <input type="text" id="txNotes" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="Keterangan tambahan...">
                 </div>
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeTransactionModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 font-semibold text-sm">Batal</button>
-                    <button type="submit" class="w-1/2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm shadow-md shadow-indigo-200">Simpan</button>
+                    <button type="button" onclick="closeTransactionModal()" class="w-1/2 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 rounded-xl font-semibold text-xs">Batal</button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-indigo-400 dark:bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold text-xs shadow-xs">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: SAVINGS GOAL -->
-    <div id="savingsModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-center items-center hidden">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+    <div id="savingsModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 flex justify-center items-center hidden p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-md shadow-xl border border-slate-100 dark:border-slate-700">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-800">Target Tabungan Baru</h3>
-                <button onclick="closeSavingsModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x"></i></button>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Target Tabungan Baru</h3>
+                <button onclick="closeSavingsModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x"></i></button>
             </div>
-            <form onsubmit="saveSavingsGoal(event)" class="space-y-4">
+            <form onsubmit="saveSavingsGoal(event)" class="space-y-3.5">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pos / Target</label>
-                    <input type="text" id="sgTitle" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="misal: Dana Darurat, Liburan" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Nama Pos / Target</label>
+                    <input type="text" id="sgTitle" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="misal: Dana Darurat, Liburan" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Target Nominal (Rp)</label>
-                    <input type="number" id="sgTarget" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="0" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Target Nominal (Rp)</label>
+                    <input type="number" id="sgTarget" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="0" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Saldo Awal (Rp)</label>
-                    <input type="number" id="sgCurrent" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="0">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Saldo Awal (Rp)</label>
+                    <input type="number" id="sgCurrent" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="0">
                 </div>
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeSavingsModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 font-semibold text-sm">Batal</button>
-                    <button type="submit" class="w-1/2 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-semibold text-sm shadow-md shadow-amber-200">Simpan</button>
+                    <button type="button" onclick="closeSavingsModal()" class="w-1/2 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 rounded-xl font-semibold text-xs">Batal</button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-amber-400 dark:bg-amber-600 hover:bg-amber-500 text-slate-900 dark:text-white rounded-xl font-semibold text-xs shadow-xs">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: ACTION DEPOSIT/WITHDRAW SAVINGS -->
-    <div id="savingsActionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-center items-center hidden">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+    <div id="savingsActionModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 flex justify-center items-center hidden p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-md shadow-xl border border-slate-100 dark:border-slate-700">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-800" id="saTitle">Setor / Tarik Tabungan</h3>
-                <button onclick="closeSavingsActionModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x"></i></button>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white" id="saTitle">Setor / Tarik Tabungan</h3>
+                <button onclick="closeSavingsActionModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x"></i></button>
             </div>
-            <form onsubmit="executeSavingsAction(event)" class="space-y-4">
+            <form onsubmit="executeSavingsAction(event)" class="space-y-3.5">
                 <input type="hidden" id="saGoalId">
                 <input type="hidden" id="saType">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nominal (Rp)</label>
-                    <input type="number" id="saAmount" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="0" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Nominal (Rp)</label>
+                    <input type="number" id="saAmount" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="0" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                    <input type="text" id="saNotes" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="Keterangan tambahan">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Catatan</label>
+                    <input type="text" id="saNotes" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="Keterangan tambahan">
                 </div>
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeSavingsActionModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 font-semibold text-sm">Batal</button>
-                    <button type="submit" id="saSubmitBtn" class="w-1/2 py-2.5 text-white rounded-xl font-semibold text-sm shadow-md">Proses</button>
+                    <button type="button" onclick="closeSavingsActionModal()" class="w-1/2 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 rounded-xl font-semibold text-xs">Batal</button>
+                    <button type="submit" id="saSubmitBtn" class="w-1/2 py-2.5 text-white rounded-xl font-semibold text-xs shadow-xs">Proses</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: SET BUDGET -->
-    <div id="budgetModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex justify-center items-center hidden">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+    <div id="budgetModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 flex justify-center items-center hidden p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-md shadow-xl border border-slate-100 dark:border-slate-700">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-800">Atur Anggaran Kategori</h3>
-                <button onclick="closeBudgetModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x"></i></button>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Atur Anggaran Kategori</h3>
+                <button onclick="closeBudgetModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x"></i></button>
             </div>
-            <form onsubmit="saveBudget(event)" class="space-y-4">
+            <form onsubmit="saveBudget(event)" class="space-y-3.5">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kategori</label>
-                    <select id="bgCategory" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500">
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Kategori</label>
+                    <select id="bgCategory" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300">
                         <option value="Makanan & Dapur">Makanan & Dapur</option>
                         <option value="Transportasi">Transportasi</option>
                         <option value="Tagihan & Listrik/Air">Tagihan & Listrik/Air</option>
@@ -353,12 +382,12 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Batas Maksimal Bulanan (Rp)</label>
-                    <input type="number" id="bgLimit" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="0" required>
+                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Batas Maksimal Bulanan (Rp)</label>
+                    <input type="number" id="bgLimit" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-300" placeholder="0" required>
                 </div>
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeBudgetModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 font-semibold text-sm">Batal</button>
-                    <button type="submit" class="w-1/2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm shadow-md">Simpan</button>
+                    <button type="button" onclick="closeBudgetModal()" class="w-1/2 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-600 dark:text-slate-300 rounded-xl font-semibold text-xs">Batal</button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-indigo-400 dark:bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold text-xs shadow-xs">Simpan</button>
                 </div>
             </form>
         </div>
@@ -369,7 +398,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi Firebase milikmu
         const firebaseConfig = {
             apiKey: "AIzaSyBQwVYP9V9Hig3-x_hSAdOPrrUHYs0mf9g",
             authDomain: "homeapps-55ec9.firebaseapp.com",
@@ -380,21 +408,17 @@
             appId: "1:227548917714:web:64e88407194c6a724ea20b"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // State Global
         let transactionsData = {};
         let savingsData = {};
         let budgetLimitsData = {};
 
-        // References
         const txRef = ref(db, 'transactions');
         const sgRef = ref(db, 'savings');
         const bgRef = ref(db, 'budgets');
 
-        // Realtime Listeners
         onValue(txRef, (snapshot) => {
             transactionsData = snapshot.val() || {};
             renderAll();
@@ -410,7 +434,6 @@
             renderAll();
         });
 
-        // Expose Firebase DB Methods to Window
         window.dbMethods = {
             addTransaction: (data) => push(txRef, data),
             deleteTransaction: (id) => remove(ref(db, `transactions/${id}`)),
@@ -434,18 +457,31 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('txDate').valueAsDate = new Date();
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('sunIcon').classList.remove('hidden');
+                document.getElementById('moonIcon').classList.add('hidden');
+            }
             lucide.createIcons();
         });
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('sunIcon').classList.toggle('hidden', !isDark);
+            document.getElementById('moonIcon').classList.toggle('hidden', isDark);
+            renderCharts();
+        }
 
         function switchTab(tab) {
             ['dashboard', 'transactions', 'savings', 'budget'].forEach(t => {
                 document.getElementById(`content-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).classList.remove('active', 'bg-indigo-700/60', 'text-white');
+                document.getElementById(`tab-${t}`).classList.remove('active', 'bg-indigo-500/80', 'dark:bg-indigo-800', 'text-white');
                 document.getElementById(`tab-${t}`).classList.add('text-indigo-100');
             });
 
             document.getElementById(`content-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).classList.add('active', 'bg-indigo-700/60', 'text-white');
+            document.getElementById(`tab-${tab}`).classList.add('active', 'bg-indigo-500/80', 'dark:bg-indigo-800', 'text-white');
             document.getElementById(`tab-${tab}`).classList.remove('text-indigo-100');
 
             if (tab === 'dashboard') {
@@ -463,7 +499,6 @@
             const sgList = Object.entries(data.savings).map(([id, val]) => ({ id, ...val }));
             const bgLimits = data.budgets;
 
-            // Calculations
             let totalIncome = 0;
             let totalExpense = 0;
 
@@ -478,7 +513,6 @@
             let totalSavings = sgList.reduce((acc, curr) => acc + (Number(curr.current) || 0), 0);
             let balance = totalIncome - totalExpense;
 
-            // Update Dashboard Cards
             document.getElementById('dashBalance').textContent = formatIDR(balance);
             document.getElementById('dashIncome').textContent = formatIDR(totalIncome);
             document.getElementById('dashExpense').textContent = formatIDR(totalExpense);
@@ -498,43 +532,43 @@
             const sorted = list.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (sorted.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">Belum ada transaksi recorded.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">Belum ada data transaksi.</td></tr>`;
                 return;
             }
 
             sorted.forEach(t => {
-                let badgeClass = 'bg-slate-100 text-slate-600';
+                let badgeClass = 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
                 let typeLabel = t.type;
                 let sign = '-';
-                let colorClass = 'text-rose-600';
+                let colorClass = 'text-rose-600 dark:text-rose-400';
 
                 if (t.type === 'INCOME') {
-                    badgeClass = 'bg-emerald-100 text-emerald-700';
+                    badgeClass = 'bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300';
                     typeLabel = 'Pemasukan';
                     sign = '+';
-                    colorClass = 'text-emerald-600';
+                    colorClass = 'text-emerald-600 dark:text-emerald-400';
                 } else if (t.type === 'EXPENSE') {
-                    badgeClass = 'bg-rose-100 text-rose-700';
+                    badgeClass = 'bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-300';
                     typeLabel = 'Pengeluaran';
                 } else if (t.type === 'SAVINGS_DEPOSIT') {
-                    badgeClass = 'bg-amber-100 text-amber-700';
+                    badgeClass = 'bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300';
                     typeLabel = 'Setor Tabungan';
                 } else if (t.type === 'SAVINGS_WITHDRAW') {
-                    badgeClass = 'bg-blue-100 text-blue-700';
+                    badgeClass = 'bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300';
                     typeLabel = 'Tarik Tabungan';
                     sign = '+';
-                    colorClass = 'text-blue-600';
+                    colorClass = 'text-sky-600 dark:text-sky-400';
                 }
 
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-4 text-xs font-medium text-slate-500">${t.date}</td>
-                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${badgeClass}">${typeLabel}</span></td>
-                        <td class="p-4 font-medium text-slate-700">${t.category}</td>
-                        <td class="p-4 text-slate-500 text-xs">${t.notes || '-'}</td>
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                        <td class="p-4 text-xs font-medium text-slate-400">${t.date}</td>
+                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[11px] font-semibold ${badgeClass}">${typeLabel}</span></td>
+                        <td class="p-4 font-medium text-slate-700 dark:text-slate-200">${t.category}</td>
+                        <td class="p-4 text-slate-400 text-xs">${t.notes || '-'}</td>
                         <td class="p-4 text-right font-bold ${colorClass}">${sign} ${formatIDR(t.amount)}</td>
                         <td class="p-4 text-center">
-                            <button onclick="deleteTx('${t.id}')" class="text-slate-400 hover:text-rose-600 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <button onclick="deleteTx('${t.id}')" class="text-slate-300 hover:text-rose-500 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         </td>
                     </tr>
                 `;
@@ -565,7 +599,7 @@
             grid.innerHTML = '';
 
             if (list.length === 0) {
-                grid.innerHTML = `<div class="col-span-3 text-center p-8 bg-white rounded-2xl text-slate-400 border border-slate-100">Belum ada target tabungan.</div>`;
+                grid.innerHTML = `<div class="col-span-3 text-center p-8 bg-white dark:bg-slate-800 rounded-3xl text-slate-400 border border-slate-100 dark:border-slate-700">Belum ada pos tabungan.</div>`;
                 return;
             }
 
@@ -575,25 +609,25 @@
                 const pct = Math.min(Math.round((current / target) * 100), 100);
 
                 grid.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-bold text-slate-800">${s.title}</h3>
+                                <h3 class="font-bold text-slate-800 dark:text-white text-sm">${s.title}</h3>
                                 <button onclick="deleteSavings('${s.id}')" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             </div>
-                            <p class="text-2xl font-black text-amber-600 mt-1">${formatIDR(current)}</p>
+                            <p class="text-xl font-black text-amber-600 dark:text-amber-400 mt-1">${formatIDR(current)}</p>
                             <p class="text-xs text-slate-400 mt-0.5">Target: ${formatIDR(target)}</p>
                             
-                            <div class="w-full bg-slate-100 h-2.5 rounded-full my-4 overflow-hidden">
-                                <div class="bg-amber-500 h-2.5 rounded-full" style="width: ${pct}%"></div>
+                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full my-4 overflow-hidden">
+                                <div class="bg-amber-400 dark:bg-amber-500 h-2 rounded-full" style="width: ${pct}%"></div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-50">
-                            <span class="font-bold text-amber-600">${pct}% Terkumpul</span>
-                            <div class="flex space-x-1">
-                                <button onclick="openSavingsActionModal('${s.id}', '${s.title}', 'WITHDRAW')" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg font-semibold">- Tarik</button>
-                                <button onclick="openSavingsActionModal('${s.id}', '${s.title}', 'DEPOSIT')" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg font-semibold">+ Setor</button>
+                        <div class="flex items-center justify-between text-xs pt-3 border-t border-slate-50 dark:border-slate-700/50">
+                            <span class="font-semibold text-amber-600 dark:text-amber-400">${pct}% Terkumpul</span>
+                            <div class="flex space-x-1.5">
+                                <button onclick="openSavingsActionModal('${s.id}', '${s.title}', 'WITHDRAW')" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 text-rose-600 dark:text-rose-300 rounded-xl font-semibold text-[11px]">- Tarik</button>
+                                <button onclick="openSavingsActionModal('${s.id}', '${s.title}', 'DEPOSIT')" class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-300 rounded-xl font-semibold text-[11px]">+ Setor</button>
                             </div>
                         </div>
                     </div>
@@ -613,21 +647,21 @@
                                    .reduce((acc, c) => acc + (Number(c.amount) || 0), 0);
 
                 const pct = limit > 0 ? Math.min(Math.round((spent / limit) * 100), 100) : 0;
-                let barColor = 'bg-indigo-500';
-                if (pct > 80) barColor = 'bg-amber-500';
-                if (pct >= 100) barColor = 'bg-rose-500';
+                let barColor = 'bg-indigo-300 dark:bg-indigo-500';
+                if (pct > 80) barColor = 'bg-amber-400 dark:bg-amber-500';
+                if (pct >= 100) barColor = 'bg-rose-400 dark:bg-rose-500';
 
                 grid.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-100 dark:border-slate-700">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-slate-700 text-sm">${cat}</span>
-                            <span class="text-xs text-slate-400">Batas: ${limit > 0 ? formatIDR(limit) : 'Belum diatur'}</span>
+                            <span class="font-bold text-slate-700 dark:text-slate-200 text-xs">${cat}</span>
+                            <span class="text-[11px] text-slate-400">Batas: ${limit > 0 ? formatIDR(limit) : 'Belum diatur'}</span>
                         </div>
                         <div class="flex justify-between items-baseline mb-2">
-                            <span class="text-base font-extrabold text-slate-800">${formatIDR(spent)}</span>
-                            <span class="text-xs font-semibold ${pct >= 100 ? 'text-rose-500' : 'text-slate-500'}">${pct}%</span>
+                            <span class="text-sm font-extrabold text-slate-800 dark:text-white">${formatIDR(spent)}</span>
+                            <span class="text-xs font-semibold ${pct >= 100 ? 'text-rose-500' : 'text-slate-400'}">${pct}%</span>
                         </div>
-                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                             <div class="${barColor} h-2 rounded-full" style="width: ${pct}%"></div>
                         </div>
                     </div>
@@ -639,7 +673,6 @@
             const data = window.getGlobalData ? window.getGlobalData() : { transactions: {} };
             const list = Object.entries(data.transactions).map(([id, val]) => ({ id, ...val }));
 
-            // Chart 1: Expense per Category
             const expCategories = {};
             list.filter(t => t.type === 'EXPENSE').forEach(t => {
                 expCategories[t.category] = (expCategories[t.category] || 0) + (Number(t.amount) || 0);
@@ -657,32 +690,33 @@
                     labels: catLabels.length ? catLabels : ['Belum ada data'],
                     datasets: [{
                         data: catData.length ? catData : [1],
-                        backgroundColor: ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6', '#06b6d4', '#f43f5e']
+                        backgroundColor: ['#a5b4fc', '#fbcfe8', '#fef08a', '#a7f3d0', '#c084fc', '#67e8f9', '#fca5a5']
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // Chart 2: Daily Trend
             const trendCtx = document.getElementById('dailyTrendChart').getContext('2d');
             if (trendChart) trendChart.destroy();
 
             trendChart = new Chart(trendCtx, {
-                type: 'line',
+                type: 'bar',
                 data: {
-                    labels: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+                    labels: ['Pemasukan', 'Pengeluaran'],
                     datasets: [{
-                        label: 'Pengeluaran',
-                        data: [120000, 190000, 30000, 50000, 200000, 150000, 90000],
-                        borderColor: '#f43f5e',
-                        tension: 0.3
+                        label: 'Nominal',
+                        data: [
+                            list.filter(t => t.type === 'INCOME' || t.type === 'SAVINGS_WITHDRAW').reduce((a, b) => a + Number(b.amount || 0), 0),
+                            list.filter(t => t.type === 'EXPENSE' || t.type === 'SAVINGS_DEPOSIT').reduce((a, b) => a + Number(b.amount || 0), 0)
+                        ],
+                        backgroundColor: ['#a7f3d0', '#fecdd3'],
+                        borderRadius: 12
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
-        // Action Handlers
         function openTransactionModal() { document.getElementById('transactionModal').classList.remove('hidden'); }
         function closeTransactionModal() { document.getElementById('transactionModal').classList.add('hidden'); }
 
@@ -725,7 +759,7 @@
             document.getElementById('saGoalId').value = id;
             document.getElementById('saType').value = type;
             document.getElementById('saTitle').textContent = (type === 'DEPOSIT' ? 'Setor ke ' : 'Tarik dari ') + title;
-            document.getElementById('saSubmitBtn').className = type === 'DEPOSIT' ? 'w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm' : 'w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold text-sm';
+            document.getElementById('saSubmitBtn').className = type === 'DEPOSIT' ? 'w-1/2 py-2.5 bg-emerald-400 dark:bg-emerald-600 hover:bg-emerald-500 text-slate-900 dark:text-white rounded-xl font-semibold text-xs' : 'w-1/2 py-2.5 bg-rose-400 dark:bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-white rounded-xl font-semibold text-xs';
             document.getElementById('savingsActionModal').classList.remove('hidden');
         }
 
@@ -748,7 +782,6 @@
 
             window.dbMethods.updateSavingsGoal(id, { ...sg, current });
 
-            // Record automatically in Transactions
             window.dbMethods.addTransaction({
                 type: type === 'DEPOSIT' ? 'SAVINGS_DEPOSIT' : 'SAVINGS_WITHDRAW',
                 category: 'Tabungan',
